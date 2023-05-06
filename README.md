@@ -1,66 +1,79 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel Twilio Text App
+This is a simple Laravel application that uses Twilio to send and receive text messages and OpenAI's GPT-3 model to generate responses to incoming messages. This app is built using PHP 8.1 and can be run locally or deployed to a production server.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Installation
+To run this application locally, you'll need to have the following installed on your machine:
 
-## About Laravel
+PHP 8.1 or higher
+Composer
+MySQL or PostgreSQL database
+Twilio account with a phone number
+OpenAI API key
+Follow these steps to install and run the application:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Clone this repository and navigate to the project directory.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+``
+git clone https://github.com/mastashake08/laravel-twilio-text-app.git
+cd laravel-twilio-text-app
+``
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+``composer install``
+Rename the .env.example file to .env.
 
-## Learning Laravel
+``cp .env.example .env
+``
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+``
+APP_URL=http://localhost
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel_twilio_text_app
+DB_USERNAME=root
+DB_PASSWORD=
+``
+Set the Twilio account SID, auth token, and phone number in the .env file.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+``TWILIO_ACCOUNT_SID=your-account-sid
+TWILIO_AUTH_TOKEN=your-auth-token
+TWILIO_FROM=your-twilio-phone-number
+``
+Set the OpenAI API key in the .env file.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+``OPENAI_API_KEY=your-api-key
+``
+Generate a new application key.
+``
+php artisan key:generate
+``
+Migrate the database.
 
-## Laravel Sponsors
+``php artisan migrate``
+Start the local development server.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+``php artisan serve``
+Expose your local server to the internet using a tool like ngrok so that Twilio can send messages to your application. Start ngrok using the command ngrok http 8000 and update your Twilio phone number's webhook URL to use the ngrok URL with /incoming-message endpoint.
 
-### Premium Partners
+Send a text message to your Twilio phone number to test the application!
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+## Docker Installation
+Alternatively, you can run this application using Docker. To run this application using Docker, follow these steps:
 
-## Contributing
+Clone this repository and navigate to the project directory.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+``
+git clone https://github.com/mastashake08/laravel-twilio-text-app.git
+cd laravel-twilio-text-app
+Build the Docker image using the included Dockerfile.
+``
+``docker build -t your-app-name .``
+Run the Docker container.
 
-## Code of Conduct
+``docker run -p 8000:9000 -it your-app-name``
+Expose your Docker container to the internet using a tool like ngrok so that Twilio can send messages to your application. Start ngrok using the command ngrok http 8000 and update your Twilio phone number's webhook URL to use the ngrok URL with /incoming-message endpoint.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Send a text message to your Twilio phone number to test the application!
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+License
+This application is open-sourced software licensed under the MIT license. Feel free to use, modify, and distribute this application as per the terms of the license. However, please note that this application is provided as-is, without any warranty or support. The authors and contributors to this application shall not be held liable for any damages arising from the use of this application.
